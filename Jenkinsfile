@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Cloning Git') {
           steps {
-            git([url: 'https://github.com/jala-bootcamp/Dose.git', branch: 'enable_ci'])
+            git([url: 'https://github.com/diego7785/Dose.git', branch: 'enable_ci'])
           }
         }
         stage('Build Main Server') {
@@ -22,6 +22,16 @@ pipeline {
                 }
             }
         }
+        stage('Publish Main Server') {
+            steps {
+              script {
+                docker.withRegistry( '', registryCredential ) {
+                  dockerImage.push("$BUILD_NUMBER")
+                   dockerImage.push('latest')
+                 }
+               }
+            }
+        }
         stage('Build Content Server') {
             steps {
                 echo 'Building content server..'
@@ -30,7 +40,7 @@ pipeline {
                 }
             }
         }
-        stage('Publish Main Server') {
+        stage('Publish Content Server') {
             steps {
               script {
                 docker.withRegistry( '', registryCredential ) {
@@ -54,6 +64,9 @@ pipeline {
             steps {
                 sh "docker rmi $mainServerImageName:$BUILD_NUMBER"
                 sh "docker rmi $mainServerImageName:latest"
+
+                sh "docker rmi $contentServerImageName:$BUILD_NUMBER"
+                sh "docker rmi $contentServerImageName:latest"
             }
         }
     }
