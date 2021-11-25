@@ -6,6 +6,8 @@ pipeline {
       contentServerImageName = "jalafoundation/dose-content-server"
       registryCredential = 'jalafoundation-registry'
       dockerImage = ''
+      dockerImage1 = ''
+
     }
 
     stages {
@@ -36,7 +38,7 @@ pipeline {
             steps {
                 echo 'Building content server..'
                 script {
-                  dockerImage = docker.build(contentServerImageName, "./ContentServer")
+                  dockerImage1 = docker.build(contentServerImageName, "./ContentServer")
                 }
             }
         }
@@ -44,8 +46,8 @@ pipeline {
             steps {
               script {
                 docker.withRegistry( '', registryCredential ) {
-                  dockerImage.push("$BUILD_NUMBER")
-                   dockerImage.push('latest')
+                  dockerImage1.push("$BUILD_NUMBER")
+                   dockerImage1.push('latest')
                  }
                }
             }
