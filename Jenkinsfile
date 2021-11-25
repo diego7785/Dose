@@ -22,6 +22,14 @@ pipeline {
                 }
             }
         }
+        stage('Build Content Server') {
+            steps {
+                echo 'Building content server..'
+                script {
+                  dockerImage = docker.build(contentServerImageName, "./ContentServer")
+                }
+            }
+        }
         stage('Publish Main Server') {
             steps {
               script {
