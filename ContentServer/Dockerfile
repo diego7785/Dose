@@ -13,7 +13,7 @@ WORKDIR .
 COPY package*.json ./
 
 RUN npm install
-RUN npm install --save-dev @babel/plugin-proposal-class-properties
+#RUN npm install --save-dev @babel/plugin-proposal-class-properties
 # If you are building your code for production
 # RUN npm ci --only=production
 
