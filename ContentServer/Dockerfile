@@ -12,6 +12,7 @@ WORKDIR .
 # where available (npm@5+)
 COPY package*.json ./
 
+RUN npm uninstall @babel/plugin-proposal-class-properties
 RUN npm install
 #RUN npm install --save-dev @babel/plugin-proposal-class-properties
 # If you are building your code for production
